@@ -1,5 +1,11 @@
 # ops-toolbox
+# ops-toolbox
 
+![ShellCheck](https://github.com/Yuuu0512/ops-toolbox/actions/workflows/shellcheck.yml/badge.svg)
+![Shell](https://img.shields.io/badge/Shell-Bash-4EAA25?logo=gnu-bash&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
+
+一个纯 Shell 编写的 Linux 迷你运维工具箱...
 一个纯 Shell 编写的 Linux 迷你运维工具箱，提供系统巡检、磁盘分析、端口查询、日志搜索、用户权限审计、进程管理等常用功能，支持菜单交互与命令行两种调用方式。
 
 ## 功能
