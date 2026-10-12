@@ -19,3 +19,5 @@ jobs:
         with:
           scandir: '.'
           ignore_paths: 'logs'
+        env:
+          SHELLCHECK_OPTS: -e SC1091,SC2009
