@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+BASE_DIR="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"
+
+source "${BASE_DIR}/lib/common.sh"
+source "${BASE_DIR}/lib/system.sh"
+source "${BASE_DIR}/lib/disk.sh"
+source "${BASE_DIR}/lib/port.sh"
+source "${BASE_DIR}/lib/log.sh"
+source "${BASE_DIR}/lib/user.sh"
+source "${BASE_DIR}/lib/process.sh"
+
+CONF="${BASE_DIR}/conf/config.conf"
+# shellcheck source=/dev/null
+[[ -f "$CONF" ]] && source "$CONF"
+
+show_menu() {
+    clear
+    cat <<EOF
+========================================
+        Linux 迷你运维工具箱
+========================================
+ 1) 系统信息概览
+ 2) 磁盘分析
+ 3) 端口查询
+ 4) 日志搜索
+ 5) 用户权限审计
+ 6) 进程管理
+ 0) 退出
+========================================
+EOF
+}
+
+interactive() {
+    while true; do
+        show_menu
+        read -r -p "请选择: " choice
+        case "$choice" in
+            1) mod_sysinfo; pause ;;
+            2) mod_disk; pause ;;
+            3) mod_port; pause ;;
+            4) mod_log; pause ;;
+            5) mod_user; pause ;;
+            6) mod_process; pause ;;
+            0) info "退出"; exit 0 ;;
+            *) warn "无效选择"; sleep 1 ;;
+        esac
+    done
+}
+
+main() {
+    if [[ $# -gt 0 ]]; then
+        case "$1" in
+            sysinfo) mod_sysinfo ;;
+            disk)    shift; mod_disk "$@" ;;
+            port)    shift; mod_port "$@" ;;
+            log)     shift; mod_log "$@" ;;
+            user)    mod_user ;;
+            process) shift; mod_process "$@" ;;
+            *) echo "用法: $0 [sysinfo|disk|port|log|user|process]"; exit 1 ;;
+        esac
+    else
+        interactive
+    fi
+}
+
+main "$@"
