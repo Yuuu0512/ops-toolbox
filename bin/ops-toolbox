@@ -10,6 +10,8 @@ source "${BASE_DIR}/lib/port.sh"
 source "${BASE_DIR}/lib/log.sh"
 source "${BASE_DIR}/lib/user.sh"
 source "${BASE_DIR}/lib/process.sh"
+source "${BASE_DIR}/lib/net.sh"
+source "${BASE_DIR}/lib/report.sh"
 
 CONF="${BASE_DIR}/conf/config.conf"
 # shellcheck source=/dev/null
@@ -27,6 +29,8 @@ show_menu() {
  4) 日志搜索
  5) 用户权限审计
  6) 进程管理
+ 7) 网络检测
+ 8) 生成巡检报告
  0) 退出
 ========================================
 EOF
@@ -43,6 +47,8 @@ interactive() {
             4) mod_log; pause ;;
             5) mod_user; pause ;;
             6) mod_process; pause ;;
+	    7) mod_net; pause ;;
+            8) mod_report; pause ;;
             0) info "退出"; exit 0 ;;
             *) warn "无效选择"; sleep 1 ;;
         esac
@@ -58,7 +64,10 @@ main() {
             log)     shift; mod_log "$@" ;;
             user)    mod_user ;;
             process) shift; mod_process "$@" ;;
-            *) echo "用法: $0 [sysinfo|disk|port|log|user|process]"; exit 1 ;;
+            net)    shift; mod_net "$@" ;;
+            report) shift; mod_report "$@" ;;
+	    
+	    *) echo "用法: $0 [sysinfo|disk|port|log|user|process|process|net|report ]"; exit 1 ;;
         esac
     else
         interactive
